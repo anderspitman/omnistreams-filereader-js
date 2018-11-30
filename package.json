@@ -1,11 +1,23 @@
 {
-  "name": "file-chunker",
+  "name": "file-chunk-reader",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Anders Pitman",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anderspitman/file-chunk-reader.git"
+  },
+  "keywords": [
+    "file",
+    "chunk"
+  ],
+  "bugs": {
+    "url": "https://github.com/anderspitman/file-chunk-reader/issues"
+  },
+  "homepage": "https://github.com/anderspitman/file-chunk-reader#readme",
+  "description": ""
 }
