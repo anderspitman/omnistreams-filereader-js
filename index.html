@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+
+  <body>
+    <script src='index.js'></script>
+    <script>
+
+      const file = new File(["Hi there"], "og.txt", {
+        type: "text/plain",
+      });
+
+      const file2 = new File([new Uint8Array([68, 65, 68])], "og.txt", {
+        type: "text/plain",
+      });
+
+      const chunker = new fileChunker.FileChunker(file2, { chunkSize: 2, binary: true });
+
+      chunker.onChunk((chunk) => {
+        console.log(chunk);
+      });
+
+      chunker.start();
+
+    </script>
+  </body>
+</html>
