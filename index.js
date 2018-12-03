@@ -29,7 +29,11 @@
       this._onChunk = callback;
     }
 
-    start() {
+    onEnd(callback) {
+      this._onEnd = callback;
+    }
+
+    read() {
 
       const maxOffset = this._file.size - this._chunkSize + 1;
 
@@ -47,6 +51,7 @@
           this._offset += this._chunkSize;
 
           if (this._offset >= this._file.size) {
+            this._onEnd();
             return;
           }
           else {
