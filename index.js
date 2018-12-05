@@ -55,7 +55,12 @@
             return;
           }
           else {
-            readChunk();
+            if (!this._cancel) {
+              readChunk();
+            }
+            else {
+              return;
+            }
           }
         };
 
@@ -68,6 +73,10 @@
       }
 
       readChunk();
+    }
+
+    cancel() {
+      this._cancel = true;
     }
   }
 
