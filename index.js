@@ -23,6 +23,7 @@
       this._chunkSize = opts.chunkSize ? options.chunkSize : 1024*1024;
       this._binary = opts.binary ? opts.binary : false;
       this._offset = 0;
+      this._onEnd = () => {};
     }
 
     onChunk(callback) {
@@ -35,8 +36,6 @@
 
     read() {
 
-      const maxOffset = this._file.size - this._chunkSize + 1;
-
       const readChunk = () => {
 
         const reader = new FileReader();
@@ -46,22 +45,25 @@
         reader.onload = (event) => {
 
           const data = event.target.result;
-          this._onChunk(data);
 
-          this._offset += this._chunkSize;
+          const readyForAnother = () => {
+            this._offset += this._chunkSize;
 
-          if (this._offset >= this._file.size) {
-            this._onEnd();
-            return;
-          }
-          else {
-            if (!this._cancel) {
-              readChunk();
-            }
-            else {
+            if (this._offset >= this._file.size) {
+              this._onEnd();
               return;
             }
+            else {
+              if (!this._cancel) {
+                readChunk();
+              }
+              else {
+                return;
+              }
+            }
           }
+
+          this._onChunk(data, readyForAnother);
         };
 
         if (this._binary) {
