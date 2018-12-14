@@ -1,6 +1,6 @@
 {
-  "name": "file-chunk-reader",
-  "version": "2.0.0",
+  "name": "omnistreams-filereader-js",
+  "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,15 +9,19 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anderspitman/file-chunk-reader.git"
+    "url": "git+https://github.com/anderspitman/omnistreams-filereader-js.git"
   },
   "keywords": [
     "file",
-    "chunk"
+    "reader",
+    "chunk",
+    "streams",
+    "streaming",
+    "omnistreams"
   ],
   "bugs": {
-    "url": "https://github.com/anderspitman/file-chunk-reader/issues"
+    "url": "https://github.com/anderspitman/omnistreams-filereader-js/issues"
   },
-  "homepage": "https://github.com/anderspitman/file-chunk-reader#readme",
+  "homepage": "https://github.com/anderspitman/omnistreams-filereader-js#readme",
   "description": ""
 }
