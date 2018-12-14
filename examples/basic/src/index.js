@@ -1,8 +1,8 @@
-import { WriteStream } from 'omnistreams'
+import { ConsumerStream } from 'omnistreams'
 import { FileReadStream } from 'omnistreams-filereader'
 //const { FileReadStream } = require('omnistreams-filereader')
 
-class LogStream extends WriteStream {
+class LogStream extends ConsumerStream {
   _write(data) {
     console.log("data")
     console.log(data)

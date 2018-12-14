@@ -4,43 +4,6 @@
   </head>
 
   <body>
-    <input id='file_button' type='file'></input>
-    <script src='index.js'></script>
-    <script>
-
-      const uploadButton = document.getElementById('file_button');
-      uploadButton.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) {
-          return;
-        }
-
-        //const file = new File(["Hi there"], "og.txt", {
-        //  type: "text/plain",
-        //});
-
-        //const file2 = new File([new Uint8Array([68, 65, 68])], "og.txt", {
-        //  type: "text/plain",
-        //});
-
-        const chunker = new fileChunker.FileChunker(file, { binary: true });
-
-        let chunksRead = 0;
-        chunker.onChunk((chunk) => {
-          chunksRead++;
-
-          if (chunksRead % 100 === 0) {
-            console.log("chunksRead: " + chunksRead);
-          }
-        });
-
-        chunker.onEnd(() => {
-          console.log("done");
-        });
-
-        chunker.read();
-      });
-
-    </script>
+    <script src='main.js'></script>
   </body>
 </html>

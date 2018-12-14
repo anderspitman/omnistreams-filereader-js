@@ -1,88 +1,58 @@
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define([], function () {
-      return (root.fileChunker = factory());
-    });
-  } else if (typeof module === 'object' && module.exports) {
-    module.exports = factory();
-  } else {
-    root.fileChunker = factory();
+import { ProducerStream } from 'omnistreams'
+
+// Implementation is based off of this one:
+// https://gist.github.com/alediaferia/cfb3a7503039f9278381
+export class FileReadStream extends ProducerStream {
+
+  constructor(file, options) {
+    super()
+
+    const opts = options ? options : {}
+
+    this._file = file
+    this._offset = 0
+    this._chunkSize = opts.chunkSize ? opts.chunkSize : 1024*1024
+    this._paused = true 
   }
-}(typeof self !== 'undefined' ? self : this, function () {
 
-  // Implementation is based off of this one:
-  // https://gist.github.com/alediaferia/cfb3a7503039f9278381
-
-  class FileChunker {
-
-    constructor(file, options) {
-      const opts = options ? options : {};
-
-      this._file = file;
-      // default to 1MB chunks
-      this._chunkSize = opts.chunkSize ? options.chunkSize : 1024*1024;
-      this._binary = opts.binary ? opts.binary : false;
-      this._offset = 0;
-      this._onEnd = () => {};
+  _demandChanged() {
+    if (this._paused) {
+      this._readChunk()
     }
+  }
 
-    onChunk(callback) {
-      this._onChunk = callback;
-    }
+  _readChunk() {
 
-    onEnd(callback) {
-      this._onEnd = callback;
-    }
+    if (this._offset < this._file.size) {
 
-    read() {
+      this._paused = false
 
-      const readChunk = () => {
+      const reader = new FileReader()
 
-        const reader = new FileReader();
+      reader.onload = (event) => {
+        const data = new Uint8Array(event.target.result)
 
-        const slice = this._file.slice(this._offset, this._offset + this._chunkSize);
+        this._dataCallback(data)
 
-        reader.onload = (event) => {
+        this._demand -= data.byteLength
+        this._offset += data.byteLength
 
-          const data = event.target.result;
-
-          const readyForAnother = () => {
-            this._offset += this._chunkSize;
-
-            if (this._offset >= this._file.size) {
-              this._onEnd();
-              return;
-            }
-            else {
-              if (!this._cancel) {
-                readChunk();
-              }
-              else {
-                return;
-              }
-            }
-          }
-
-          this._onChunk(data, readyForAnother);
-        };
-
-        if (this._binary) {
-          reader.readAsArrayBuffer(slice);
+        if (this._demand > 0) {
+          this._readChunk()
         }
         else {
-          reader.readAsText(slice);
+          this._paused = true
+        }
+
+        if (this._offset >= this._file.size) {
+          this._endCallback()
         }
       }
 
-      readChunk();
-    }
-
-    cancel() {
-      this._cancel = true;
+      const readSize = this._demand < this._chunkSize ? this._demand : this._chunkSize
+      const slice = this._file.slice(this._offset, this._offset + readSize)
+      reader.readAsArrayBuffer(slice)
+      //reader.readAsText(slice)
     }
   }
-
-  return {
-    FileChunker,
-  };
-}));
+}
