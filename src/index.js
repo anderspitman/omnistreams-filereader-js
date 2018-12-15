@@ -23,6 +23,10 @@ export class FileReadStream extends ProducerStream {
 
   _readChunk() {
 
+    if (this._terminated) {
+      return
+    }
+
     if (this._offset < this._file.size) {
 
       this._paused = false
@@ -30,7 +34,8 @@ export class FileReadStream extends ProducerStream {
       const reader = new FileReader()
 
       reader.onload = (event) => {
-        const data = new Uint8Array(event.target.result)
+        //const data = new Uint8Array(event.target.result)
+        const data = event.target.result
 
         this._dataCallback(data)
 
