@@ -34,12 +34,11 @@ export class FileReadStream extends ProducerStream {
       const reader = new FileReader()
 
       reader.onload = (event) => {
-        //const data = new Uint8Array(event.target.result)
-        const data = event.target.result
+        const data = new Uint8Array(event.target.result)
 
         this._dataCallback(data)
 
-        this._demand -= data.byteLength
+        this._demand--
         this._offset += data.byteLength
 
         if (this._demand > 0) {
@@ -50,12 +49,12 @@ export class FileReadStream extends ProducerStream {
         }
 
         if (this._offset >= this._file.size) {
+          console.log("end file stream: " + this.id)
           this._endCallback()
         }
       }
 
-      const readSize = this._demand < this._chunkSize ? this._demand : this._chunkSize
-      const slice = this._file.slice(this._offset, this._offset + readSize)
+      const slice = this._file.slice(this._offset, this._offset + this._chunkSize)
       reader.readAsArrayBuffer(slice)
       //reader.readAsText(slice)
     }
