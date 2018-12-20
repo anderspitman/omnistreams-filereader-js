@@ -1,4 +1,4 @@
-import { ProducerStream } from 'omnistreams'
+import { ProducerStream } from 'omnistreams-core'
 
 // Implementation is based off of this one:
 // https://gist.github.com/alediaferia/cfb3a7503039f9278381
