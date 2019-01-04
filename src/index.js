@@ -49,7 +49,7 @@ export class FileReadStream extends ProducerStream {
         }
 
         if (this._offset >= this._file.size) {
-          console.log("end file stream: " + this.id)
+          //console.log("end file stream: " + this.id)
           this._endCallback()
         }
       }
