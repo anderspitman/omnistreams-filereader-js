@@ -1,8 +1,8 @@
-import { ProducerStream } from 'omnistreams-core'
+import { Producer } from 'omnistreams-core'
 
 // Implementation is based off of this one:
 // https://gist.github.com/alediaferia/cfb3a7503039f9278381
-export class FileReadStream extends ProducerStream {
+export class FileReadProducer extends Producer {
 
   constructor(file, options) {
     super()
