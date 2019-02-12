@@ -13,6 +13,7 @@ export class FileReadProducer extends Producer {
     this._offset = 0
     this._chunkSize = opts.chunkSize ? opts.chunkSize : 1024*1024
     this._paused = true 
+    this._stop = false
   }
 
   _demandChanged() {
@@ -23,7 +24,7 @@ export class FileReadProducer extends Producer {
 
   _readChunk() {
 
-    if (this._terminated) {
+    if (this._stop) {
       return
     }
 
@@ -34,6 +35,10 @@ export class FileReadProducer extends Producer {
       const reader = new FileReader()
 
       reader.onload = (event) => {
+        if (this._stop) {
+          return
+        }
+
         const data = new Uint8Array(event.target.result)
 
         this._dataCallback(data)
@@ -58,5 +63,9 @@ export class FileReadProducer extends Producer {
       reader.readAsArrayBuffer(slice)
       //reader.readAsText(slice)
     }
+  }
+
+  _terminate() {
+    this._stop = true
   }
 }
