@@ -1,4 +1,4 @@
-import { Producer } from 'omnistreams-core'
+import { Producer } from './node_modules/omnistreams/index.mjs'
 
 // Implementation is based off of this one:
 // https://gist.github.com/alediaferia/cfb3a7503039f9278381

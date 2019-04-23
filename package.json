@@ -1,7 +1,8 @@
 {
   "name": "omnistreams-filereader",
-  "version": "0.3.0",
-  "main": "src/index.js",
+  "version": "0.4.0",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,6 +30,6 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "omnistreams-core": "^0.3.0"
+    "omnistreams": "^0.6.0"
   }
 }
